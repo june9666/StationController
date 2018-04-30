@@ -1,3 +1,4 @@
+import DataClasses.Data;
 import com.google.gson.JsonObject;
 import org.apache.log4j.Logger;
 import sun.rmi.transport.proxy.HttpReceiveSocket;
@@ -10,32 +11,55 @@ import java.net.Socket;
 public class OutputHandler {
 
     final static Logger logger = Logger.getLogger(OutputHandler.class);
+
     public OutputHandler() {
 
     }
 
-    public void clientsend(String host, int port, String action) {
-        Socket  clientSocket = null;
+    public void clientLampSend(String host, int port, String action) {
+        Socket clientSocket = null;
         try {
-            clientSocket = new Socket(host,port);
+            clientSocket = new Socket(host, port);
 
 
-        DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
-        JsonObject json2 = new JsonObject();
-        json2.addProperty("GatewayID", "IndulASorosAludni");
-        json2.addProperty("LampState", action);
-        //logger.info(clientSocket.getRemoteSocketAddress());
+            DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+            JsonObject json2 = new JsonObject();
+            json2.addProperty("GatewayID", "IndulASorosAludni");
+            json2.addProperty("LampState", action);
+            //logger.info(json2.get("GatewayID").toString());
+            logger.info(clientSocket.getRemoteSocketAddress());
 
 
-       // if (voltma) {
-         //   voltma = false;
+            // if (voltma) {
+            //   voltma = false;
             out.write(json2.toString().getBytes());
             out.write('$');
-          //  logger.info("Sent control: " + json2.toString().getBytes() + "$");
-        clientSocket.close();
+            //  logger.info("Sent control: " + json2.toString().getBytes() + "$");
+            clientSocket.close();
         } catch (IOException e) {
             logger.error("no lamp found");
+            return;
         }
     }
 
+    public void clientSparkSend(String host, int port, Data input) {
+        Socket clientSocket = null;
+        try {
+            clientSocket = new Socket(host, port);
+
+
+            DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+
+            logger.info(input.toSparkformat());
+
+            out.write(input.toString().getBytes());
+
+
+
+        } catch (IOException e) {
+            logger.error("no Spark found");
+            return;
+        }
+
+    }
 }
