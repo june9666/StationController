@@ -104,4 +104,9 @@ public  class CameraData extends Data {
     public int getLight() {
         return -1;
     }
+
+    @Override
+    public String toSparkformat() {
+        return null;
+    }
 }

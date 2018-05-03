@@ -18,9 +18,9 @@ public class AccData extends Data{
     }
     public AccData(JsonObject json){
         super(json);
-        AccX = Double.valueOf(json.get("AccX").toString());
-        AccY = Double.valueOf(json.get("AccY").toString());
-        AccZ = Double.valueOf(json.get("AccZ").toString());
+        AccX = Double.valueOf(json.get("AccX").toString().substring(1,json.get("AccX").toString().length()-1 ));
+        AccY = Double.valueOf(json.get("AccY").toString().substring(1,json.get("AccY").toString().length()-1 ));
+        AccZ = Double.valueOf(json.get("AccZ").toString().substring(1,json.get("AccZ").toString().length()-1 ));
     }
 
     public AccData() { }
@@ -28,6 +28,11 @@ public class AccData extends Data{
     @Override
     public int getLight() {
         return -1;
+    }
+
+    @Override
+    public String toSparkformat() {
+        return null;
     }
 
     public double getAccX() {

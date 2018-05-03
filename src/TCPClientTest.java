@@ -11,7 +11,7 @@ class TCPClientTest {
         String sentence;
         String modifiedSentence;
         //BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        Socket clientSocket = new Socket("localhost", 8888);
+        Socket clientSocket = new Socket("localhost", 5502);
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
        // sentence = inFromUser.readLine();

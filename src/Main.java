@@ -19,7 +19,7 @@ import org.apache.log4j.PropertyConfigurator;
 public class Main {
     final static Logger logger = Logger.getLogger(Main.class);
 
-    public static void main(String argv[]) {
+    public static void main(String argv[]) throws IOException {
 
         PropertyConfigurator.configure("log4j.properties");
         ArrayList<Data> dataArrayList = new ArrayList();
@@ -27,16 +27,24 @@ public class Main {
         int lport = 8887;
         logger.info("Server started");
         ServerSocket serverSocket;
+        ServerSocket serverSocket2;
         Socket serviceSocket;
+        Socket serviceSocket2;
         try {
-            serverSocket = new ServerSocket(8888);
+            serverSocket = new ServerSocket(5502);
+            serverSocket2 = new ServerSocket(5503);
+
+
+
 
 
             while (true) {
 
+                serviceSocket = serverSocket.accept();
 
                 //Listen and accept connections from clients
-                serviceSocket = serverSocket.accept();
+
+
 
                 //Reading received line
                 InputStreamReader inFromClient =
@@ -62,20 +70,24 @@ public class Main {
                     for (Data l : dataArrayList) {
                         if (l.getLight() < 150 && l.getLight() > 0) {
                             OutputHandler op = new OutputHandler();
-                            op.clientsend(lamphost, lport,"ON");
+                            op.clientLampSend(lamphost, lport,"ON");
+
+
+                            //bufferedWriter.write("hello");
                             //  dataArrayList.remove(l);
                         } else if (l.getLight() < 1024 && l.getLight() > 150) {
                             OutputHandler op = new OutputHandler();
-                            op.clientsend(lamphost, lport,"OFF");
+                            op.clientLampSend(lamphost, lport,"OFF");
+                          //  bufferedWriter.write("hello");
+                           // op.clientSparkSend(lamphost,lport, l);
                             // dataArrayList.remove(l);
                         }
                     }
 
                 }
                 serviceSocket.close();
-
-
                 dataArrayList.removeAll(dataArrayList);
+
             }
         } catch (IOException e)
 
@@ -111,8 +123,8 @@ public class Main {
                 dataArrayList.add(cameraData);
                 break;
             case "light":
-                LightData lightData = new LightData(json);
-                dataArrayList.add(lightData);
+               // LightData lightData = new LightData(json);
+              //  dataArrayList.add(lightData);
                 break;
         }
     }

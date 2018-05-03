@@ -16,6 +16,33 @@ public class OutputHandler {
 
     }
 
+    public void clientTuneSend(String host, int port, String action) {
+        Socket clientSocket = null;
+        try {
+            clientSocket = new Socket(host, port);
+
+
+            DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+            JsonObject json2 = new JsonObject();
+            json2.addProperty("GatewayID", "IndulASoroSAludnI");
+            json2.addProperty("LampState", action);
+            json2.addProperty("TuneState", "ON");
+            //logger.info(json2.get("GatewayID").toString());
+            logger.info(clientSocket.getRemoteSocketAddress());
+
+
+            // if (voltma) {
+            //   voltma = false;
+            out.write(json2.toString().getBytes());
+            out.write('$');
+            //  logger.info("Sent control: " + json2.toString().getBytes() + "$");
+            clientSocket.close();
+        } catch (IOException e) {
+            logger.error("no lamp found");
+            return;
+        }
+    }
+
     public void clientLampSend(String host, int port, String action) {
         Socket clientSocket = null;
         try {
@@ -24,8 +51,9 @@ public class OutputHandler {
 
             DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
             JsonObject json2 = new JsonObject();
-            json2.addProperty("GatewayID", "IndulASorosAludni");
+            json2.addProperty("GatewayID", "IndulASoroSAludnI");
             json2.addProperty("LampState", action);
+            //json2.addProperty("TuneState", "ON");
             //logger.info(json2.get("GatewayID").toString());
             logger.info(clientSocket.getRemoteSocketAddress());
 
