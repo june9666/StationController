@@ -18,7 +18,7 @@ public class OutputHandler {
    //database variables 
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost/EMP";
+   static final String DB_URL = "jdbc:mysql://192.168.43.7/iot_db";
 
    //  Database credentials
    static final String USER = "gateway";
