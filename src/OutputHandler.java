@@ -151,4 +151,49 @@ public class OutputHandler {
     
     
     
+      public void clientNotificationSend(String desc,int priority) {
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            
+          Class.forName("com.mysql.jdbc.Driver");
+          conn = DriverManager.getConnection(DB_URL,USER,PASS);
+          
+          stmt = conn.createStatement();
+          String sql;
+          sql = "insert into alerts(priority,description) values("+String(priority)+","+desc+")";
+         
+          ResultSet rs = stmt.executeQuery(sql);
+
+          
+          rs.close();
+          stmt.close();
+          conn.close();
+
+
+
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            logger.error("there is an error with sql");
+        } catch (Exception e) {
+            logger.error("there is an error with accdata");
+            return;
+        }finally{
+        //finally block used to close resources
+        try{
+            if(stmt!=null)
+            stmt.close();
+        }catch(SQLException se2){
+        }// nothing we can do
+        try{
+            if(conn!=null)
+            conn.close();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }
+   }
+    
+    
+    
 }
